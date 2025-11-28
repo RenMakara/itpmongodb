@@ -1,0 +1,14 @@
+
+# config mongodb
+spring:
+  application:
+    name: itpmongdb
+  mongodb:
+    host: localhost:27168
+    username: istad
+    password: qwerqwer
+    database: mymongodb
+    authentication-database: admin
+
+
+
