@@ -1,5 +1,6 @@
 package co.istad.itpmongdb.service;
 
+import co.istad.itpmongdb.dto.CreateUserDto;
 import co.istad.itpmongdb.dto.UserRequest;
 import co.istad.itpmongdb.dto.UserResponse;
 
@@ -11,6 +12,9 @@ public interface UserService {
 
     UserResponse findById(String id);
 
-    UserRequest createUser(UserRequest userRequest);
+    UserResponse createUser(CreateUserDto createUserDto);
 
+    UserRequest updateUserById(String id, UserRequest userRequest);
+
+    String deleteUserById(String id);
 }
