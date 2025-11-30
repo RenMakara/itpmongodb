@@ -28,7 +28,7 @@ public class RestException {
         return BaseError.builder()
                 .status(false)
                 .code(e.getStatusCode().value())
-                .message(e.getReason())
+                .message("Something went wrong!, please try again later")
                 .timestamp(LocalDateTime.now())
                 .error(e.getMessage())
                 .build();
