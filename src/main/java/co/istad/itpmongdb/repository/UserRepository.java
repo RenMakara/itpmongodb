@@ -1,6 +1,7 @@
 package co.istad.itpmongdb.repository;
 
 import co.istad.itpmongdb.domain.User;
+import co.istad.itpmongdb.filter.FilterableRepository;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface UserRepository extends MongoRepository<User, String> {
+public interface UserRepository extends MongoRepository<User, String>, FilterableRepository<User> {
 
     @Query("{name: {$regex: ?0, $options: 'i'} }")
     List<User> filterByName(String name);

@@ -2,8 +2,10 @@ package co.istad.itpmongdb.service.impl;
 
 import co.istad.itpmongdb.domain.User;
 import co.istad.itpmongdb.dto.CreateUserDto;
+import co.istad.itpmongdb.dto.FilterDto;
 import co.istad.itpmongdb.dto.UserRequest;
 import co.istad.itpmongdb.dto.UserResponse;
+import co.istad.itpmongdb.filter.FilteringFactory;
 import co.istad.itpmongdb.mapper.UserMapper;
 import co.istad.itpmongdb.repository.UserRepository;
 import co.istad.itpmongdb.service.UserService;
@@ -23,6 +25,18 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+
+
+    public Page<UserResponse> filterUsers(FilterDto filterDto, int page, int size){
+
+        Sort sortByName = Sort.by(Sort.Direction.ASC, "name");
+        Pageable pageable = PageRequest.of(page, size, sortByName);
+
+        Page<User> filteredUsers = userRepository.findAllWithFilter(User.class,
+                FilteringFactory.parseFromParams(filterDto.filter(), User.class), pageable);
+
+        return filteredUsers.map(userMapper::toUserResponse);
+    }
 
     @Override
     public Page<UserResponse> findAll(int page, int size) {

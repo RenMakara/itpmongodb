@@ -2,6 +2,7 @@ package co.istad.itpmongdb.controller;
 
 import co.istad.itpmongdb.base.BaseRest;
 import co.istad.itpmongdb.dto.CreateUserDto;
+import co.istad.itpmongdb.dto.FilterDto;
 import co.istad.itpmongdb.dto.UserRequest;
 import co.istad.itpmongdb.dto.UserResponse;
 import co.istad.itpmongdb.service.UserService;
@@ -19,10 +20,26 @@ public class UserController {
 
     private final UserService userService;
 
+    @PostMapping("/filter")
+    public BaseRest<?> filterUsers(@RequestBody FilterDto filterDto,
+                                   @RequestParam(required = false, defaultValue = "0") int page,
+                                   @RequestParam(required = false, defaultValue = "25") int size
+                                   ){
+
+        var filterUser = userService.filterUsers(filterDto, page, size);
+        return BaseRest.builder()
+                .status(true)
+                .code(HttpStatus.OK.value())
+                .message("User find successfully!")
+                .timestamp(LocalDateTime.now())
+                .data(filterUser)
+                .build();
+    }
+
     @GetMapping
     public BaseRest<?> findAllUser(
             @RequestParam(name = "page", required = false, defaultValue = "0") int page,
-            @RequestParam(name = "size", required = false, defaultValue = "10") int size
+            @RequestParam(name = "size", required = false, defaultValue = "25") int size
     ){
 
         var userList = userService.findAll(page, size);
