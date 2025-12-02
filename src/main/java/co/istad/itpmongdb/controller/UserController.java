@@ -20,8 +20,12 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public BaseRest<?> findAllUser(){
-        var userList = userService.findAll();
+    public BaseRest<?> findAllUser(
+            @RequestParam(name = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(name = "size", required = false, defaultValue = "10") int size
+    ){
+
+        var userList = userService.findAll(page, size);
         return BaseRest.builder()
                 .status(true)
                 .code(HttpStatus.OK.value())
@@ -42,7 +46,8 @@ public class UserController {
                 .data(user)
                 .build();
     }
-// create user ====
+
+    // create user ====
     @PostMapping
     public BaseRest<?> createUser(@RequestBody @Valid CreateUserDto createUserDto){
         UserResponse userResponse = userService.createUser(createUserDto);
@@ -54,11 +59,10 @@ public class UserController {
                 .data(userResponse)
                 .build();
     }
-// update user by id ====
+
+    // update user by id ====
     @PutMapping("/{id}")
-    public BaseRest<?> updateUser(@PathVariable("id") String id,
-                                  @Valid
-                                  @RequestBody UserRequest request){
+    public BaseRest<?> updateUser(@PathVariable("id") String id, @Valid @RequestBody UserRequest request){
         var updateUser = userService.updateUserById(id, request);
         return BaseRest.builder()
                 .status(true)

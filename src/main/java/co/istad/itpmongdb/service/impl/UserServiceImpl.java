@@ -8,21 +8,29 @@ import co.istad.itpmongdb.mapper.UserMapper;
 import co.istad.itpmongdb.repository.UserRepository;
 import co.istad.itpmongdb.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import java.util.List;
+
 
 @RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
+
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+
     @Override
-    public List<UserResponse> findAll() {
-        List<User> users = userRepository
-                .findAll();
-        return users.stream().map(userMapper::toUserResponse).toList();
+    public Page<UserResponse> findAll(int page, int size) {
+        Sort sortByName = Sort.by(Sort.Direction.ASC, "name");
+        Pageable pageable = PageRequest.of(page, size, sortByName);
+        Page<User> users = userRepository
+                .findAll(pageable);
+        return users.map(userMapper::toUserResponse);
     }
 
     @Override
