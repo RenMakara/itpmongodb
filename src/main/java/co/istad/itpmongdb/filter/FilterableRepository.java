@@ -12,9 +12,12 @@ import java.util.Map;
 
 public interface FilterableRepository<T> {
     Page<T> findAllWithFilter(Class<T> typeParameterClass,
-                              Filtering filtering, Pageable pageable);
+                              Filtering filtering,
+                              Pageable pageable);
 
-    List<Object> getAllPossibleValuesForFilter(Class<T> typeParameterClass, Filtering filtering, String filterKey);
+    List<Object> getAllPossibleValuesForFilter(Class<T> typeParameterClass,
+                                               Filtering filtering,
+                                               String filterKey);
 
     default Query constructQueryFromFiltering(Filtering filtering) {
         Query query = new Query();

@@ -27,6 +27,15 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
 
+    /**
+     * Filters the users based on the provided filter criteria and returns a paginated
+     * list of users sorted by their name in ascending order.
+     *
+     * @param filterDto the filter criteria used to filter the users
+     * @param page the page number to retrieve (0-based index)
+     * @param size the number of records per page
+     * @return a paginated list of filtered users mapped to UserResponse objects
+     */
     public Page<UserResponse> filterUsers(FilterDto filterDto, int page, int size){
 
         Sort sortByName = Sort.by(Sort.Direction.ASC, "name");
@@ -38,6 +47,13 @@ public class UserServiceImpl implements UserService {
         return filteredUsers.map(userMapper::toUserResponse);
     }
 
+    /**
+     * Retrieves a paginated list of all users, sorted by name in ascending order.
+     *
+     * @param page the page number to retrieve (0-based index).
+     * @param size the number of items per page.
+     * @return a {@code Page} of {@code UserResponse} containing user data.
+     */
     @Override
     public Page<UserResponse> findAll(int page, int size) {
         Sort sortByName = Sort.by(Sort.Direction.ASC, "name");
@@ -47,6 +63,9 @@ public class UserServiceImpl implements UserService {
         return users.map(userMapper::toUserResponse);
     }
 
+    /**
+     *
+     */
     @Override
     public UserResponse findById(String id) {
         User users = userRepository.findById(id).orElseThrow(() ->
@@ -55,6 +74,12 @@ public class UserServiceImpl implements UserService {
         return userMapper.toUserResponse(users);
     }
 
+    /**
+     * Creates a new user based on the provided data and saves it to the repository.
+     *
+     * @param createUserDto the data transfer object containing the details required to create a new user
+     * @return a UserResponse object containing the details of the newly created user
+     */
     @Override
     public UserResponse createUser(CreateUserDto createUserDto) {
 
@@ -65,6 +90,14 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    /**
+     * Updates the details of an existing user identified by their unique ID.
+     *
+     * @param id the unique identifier of the user to update
+     * @param userRequest the data transfer object containing the new details of the user
+     * @return the updated user details wrapped in a {@code UserRequest} object
+     * @throws ResponseStatusException if the user with the specified ID does not exist
+     */
     @Override
     public UserRequest updateUserById(String id, UserRequest userRequest) {
         User existingUser = userRepository.findById(id).orElseThrow(()->
@@ -80,6 +113,13 @@ public class UserServiceImpl implements UserService {
                 updateUser.getEmail());
     }
 
+    /**
+     * Deletes a user identified by their unique ID.
+     *
+     * @param id the unique identifier of the user to delete
+     * @return a confirmation message indicating the successful deletion of the user
+     * @throws ResponseStatusException if the user with the specified ID does not exist
+     */
     @Override
     public String deleteUserById(String id) {
         User user = userRepository.findById(id).orElseThrow(() ->

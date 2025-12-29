@@ -11,24 +11,24 @@ spring:
     authentication-database: admin
 
 
-
-services:
-  mongodb-latest:
-    image: "mongodb/mongodb-community-server:latest"
-    container_name: "mongodb-latest"
-    ports:
-      - "27168:27017"
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=istad
-      - MONGO_INITDB_ROOT_PASSWORD=qwerqwer
-    volumes:
-      - mongodb_latest_data_vol:/data/db/
-      - mongodb_latest_log_vol:/var/log/mongodb/
-    networks:
-      - itp-net
-volumes:
-  mongodb_latest_data_vol:
-  mongodb_latest_log_vol:
-networks:
-  itp-net:
-    external: true
+#
+#services:
+#  mongodb-latest:
+#    image: "mongodb/mongodb-community-server:latest"
+#    container_name: "mongodb-latest"
+#    ports:
+#      - "27168:27017"
+#    environment:
+#      - MONGO_INITDB_ROOT_USERNAME=istad
+#      - MONGO_INITDB_ROOT_PASSWORD=qwerqwer
+#    volumes:
+#      - mongodb_latest_data_vol:/data/db/
+#      - mongodb_latest_log_vol:/var/log/mongodb/
+#    networks:
+#      - itp-net
+#volumes:
+#  mongodb_latest_data_vol:
+#  mongodb_latest_log_vol:
+#networks:
+#  itp-net:
+#    external: true
