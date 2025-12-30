@@ -30,7 +30,7 @@ public class UserController {
         return BaseRest.builder()
                 .status(true)
                 .code(HttpStatus.OK.value())
-                .message("User find successfully!")
+                .message("User filterd successfully!")
                 .timestamp(LocalDateTime.now())
                 .data(filterUser)
                 .build();
